@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Text Encryption</h1>
+        <form id="encryptionForm">
+            <label for="text">Text:</label>
+            <textarea id="text" name="text" rows="4" cols="50"></textarea>
+            <br><br>
+            <button type="button" onclick="encryptText()">Encrypt</button>
+            <button type="button" onclick="decryptText()">Decrypt</button>
+        </form>
+        <h2>Result:</h2>
+        <p id="result"></p>
+    </div>
+    <script>
+        async function encryptText() {
+            const text = document.getElementById('text').value;
+            const response = await fetch('/encrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = data.result;
+        }
+
+        async function decryptText() {
+            const text = document.getElementById('text').value;
+            const response = await fetch('/decrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = data.result;
+        }
+    </script>
+</body>
+</html>
